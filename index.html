@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abtsega Tesfaye Chufare — Cybersecurity</title>
+<meta name="description" content="Security, cloud, and Applied ML - built to work together. M.S. Cybersecurity, George Washington University.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink:        #0F1B2D;
+    --ink-mid:    #16263D;
+    --surface:    #1C2D45;
+    --surface-2:  #22324A;
+    --paper:      #F7F5F0;
+    --paper-dim:  #EAE6DC;
+    --slate:      #8A9BA8;
+    --slate-dim:  #5E6E7C;
+    --sage:       #6E8E80;
+    --sage-bright:#8FB3A3;
+    --brick:      #C4452E;
+    --brick-dim:  #9A3A28;
+    --hairline:   rgba(247,245,240,0.12);
+    --hairline-dark: rgba(15,27,45,0.12);
+
+    --font-display: 'Source Serif 4', Georgia, serif;
+    --font-body: 'IBM Plex Sans', -apple-system, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'SF Mono', monospace;
+
+    --max-w: 1080px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  img { max-width: 100%; display: block; }
+
+  ::selection { background: var(--sage); color: var(--paper); }
+
+  :focus-visible {
+    outline: 2px solid var(--brick);
+    outline-offset: 3px;
+  }
+
+  .wrap {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ===== NAV ===== */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(247,245,240,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--hairline-dark);
+  }
+  .nav-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-mark {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .nav-mark span { color: var(--brick); }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+  .nav-links a {
+    color: var(--slate-dim);
+    transition: color 0.15s ease;
+    position: relative;
+    padding-bottom: 2px;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-toggle { display: none; }
+
+  @media (max-width: 720px) {
+    .nav-links { display: none; }
+    .nav-toggle {
+      display: block;
+      background: none;
+      border: 1px solid var(--hairline-dark);
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--paper);
+      border-bottom: 1px solid var(--hairline-dark);
+      padding: 16px 32px 24px;
+      gap: 16px;
+    }
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 96px 0 88px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--hairline) 1px, transparent 1px),
+      linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sage-bright);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--sage-bright);
+    box-shadow: 0 0 0 3px rgba(143,179,163,0.18);
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    max-width: 13ch;
+  }
+
+  .hero-role {
+    margin-top: 18px;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--slate);
+    font-weight: 400;
+    max-width: 38ch;
+  }
+  .hero-role .accent { color: var(--sage-bright); font-weight: 500; }
+
+  .terminal-rule {
+    margin: 28px 0 32px;
+    width: 220px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--sage-bright), transparent);
+    position: relative;
+  }
+  .terminal-rule::after {
+    content: "";
+    position: absolute;
+    right: -2px; top: -3px;
+    width: 8px; height: 8px;
+    background: var(--sage-bright);
+    animation: blink 1.4s steps(2) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .hero-summary {
+    max-width: 62ch;
+    color: var(--paper-dim);
+    font-size: 1.02rem;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    margin-top: 32px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  .hero-meta a, .hero-meta span {
+    color: var(--slate);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border: 1px solid var(--hairline);
+    border-radius: 3px;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .hero-meta a:hover {
+    border-color: var(--sage-bright);
+    color: var(--paper);
+  }
+
+  /* ===== SECTION SCAFFOLDING ===== */
+  section { padding: 80px 0; }
+  section:nth-of-type(even) { background: var(--paper-dim); }
+
+  .section-head {
+    margin-bottom: 44px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brick-dim);
+    border: 1px solid currentColor;
+    padding: 3px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .section-head h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 1.9rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .section-sub {
+    color: var(--slate-dim);
+    font-size: 0.95rem;
+    max-width: 60ch;
+    margin-top: -28px;
+    margin-bottom: 36px;
+  }
+
+  /* ===== SKILLS ===== */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 40px;
+  }
+  @media (max-width: 720px) { .skills-grid { grid-template-columns: 1fr; } }
+
+  .skill-group {
+    border-top: 2px solid var(--ink);
+    padding-top: 16px;
+  }
+  .skill-group.priority { border-top-color: var(--brick); }
+  .skill-group-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .skill-group h3 {
+    font-family: var(--font-display);
+    font-size: 1.08rem;
+    font-weight: 600;
+  }
+  .skill-weight {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--slate-dim);
+    letter-spacing: 0.04em;
+  }
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    padding: 5px 10px;
+    border: 1px solid var(--hairline-dark);
+    border-radius: 3px;
+    color: var(--ink);
+    background: var(--paper);
+  }
+  .skill-group.priority .chip {
+    border-color: rgba(196,69,46,0.3);
+  }
+
+  /* ===== EXPERIENCE ===== */
+  .timeline { position: relative; }
+  .tl-item {
+    position: relative;
+    padding: 0 0 40px 28px;
+    border-left: 1px solid var(--hairline-dark);
+  }
+  .tl-item:last-child { border-left-color: transparent; padding-bottom: 0; }
+  .tl-item::before {
+    content: "";
+    position: absolute;
+    left: -5px; top: 4px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--paper-dim);
+    border: 2px solid var(--slate-dim);
+  }
+  .tl-item.flagship::before {
+    background: var(--brick);
+    border-color: var(--brick);
+  }
+  .tl-item.flagship { border-left-color: rgba(196,69,46,0.35); }
+
+  .tl-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-bottom: 4px;
+  }
+  .tl-role {
+    font-weight: 600;
+    font-size: 1.04rem;
+  }
+  .tl-org { color: var(--slate-dim); font-weight: 400; }
+  .tl-date {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--slate-dim);
+    white-space: nowrap;
+  }
+  .tl-loc {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--sage);
+    margin-bottom: 10px;
+  }
+  .tl-item ul { padding-left: 18px; }
+  .tl-item li {
+    font-size: 0.95rem;
+    color: var(--ink-mid, var(--ink));
+    margin-bottom: 6px;
+  }
+  .tl-item li::marker { color: var(--slate-dim); }
+  .metric {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--brick-dim);
+  }
+
+  /* ===== PROJECTS ===== */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 720px) { .project-grid { grid-template-columns: 1fr; } }
+
+  .project-card {
+    background: var(--paper);
+    border: 1px solid var(--hairline-dark);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .project-card:hover { border-color: var(--sage); transform: translateY(-2px); }
+
+  .project-shot {
+    aspect-ratio: 16/9;
+    background:
+      repeating-linear-gradient(45deg, var(--paper-dim) 0 10px, var(--paper) 10px 20px);
+    border-bottom: 1px solid var(--hairline-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--slate-dim);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .project-body { padding: 20px 22px 22px; flex: 1; display: flex; flex-direction: column; }
+  .project-tag-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .project-domain {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--sage);
+  }
+  .project-link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--slate-dim);
+    border: 1px solid var(--hairline-dark);
+    border-radius: 3px;
+    padding: 3px 9px;
+    transition: all 0.15s ease;
+  }
+  .project-link:hover { color: var(--paper); background: var(--ink); border-color: var(--ink); }
+
+  .project-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.12rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .project-card p {
+    font-size: 0.92rem;
+    color: var(--ink-mid, var(--ink));
+    margin-bottom: 14px;
+    flex: 1;
+  }
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--slate-dim);
+  }
+  .project-stack span {
+    border: 1px solid var(--hairline-dark);
+    padding: 2px 7px;
+    border-radius: 2px;
+  }
+
+  /* ===== BLOG ===== */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
+
+  .blog-card {
+    background: var(--paper);
+    border: 1px solid var(--hairline-dark);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .blog-card:hover { border-color: var(--brick-dim); transform: translateY(-2px); }
+
+  .blog-shot {
+    aspect-ratio: 16/10;
+    background:
+      repeating-linear-gradient(45deg, var(--paper-dim) 0 10px, var(--paper) 10px 20px);
+    border-bottom: 1px solid var(--hairline-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--slate-dim);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 12px;
+  }
+
+  .blog-body { padding: 18px 20px 20px; flex: 1; display: flex; flex-direction: column; }
+  .blog-cat {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--brick-dim);
+    margin-bottom: 10px;
+  }
+  .blog-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  .blog-card p {
+    font-size: 0.9rem;
+    color: var(--ink-mid, var(--ink));
+    margin-bottom: 16px;
+    flex: 1;
+  }
+  .blog-read {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    color: var(--ink);
+    border: 1px solid var(--hairline-dark);
+    border-radius: 3px;
+    padding: 7px 12px;
+    align-self: flex-start;
+    transition: all 0.15s ease;
+  }
+  .blog-read:hover { color: var(--paper); background: var(--ink); border-color: var(--ink); }
+
+  .blog-cta {
+    margin-top: 32px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .blog-cta a {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    color: var(--slate-dim);
+    border-bottom: 1px solid var(--hairline-dark);
+    padding-bottom: 2px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .blog-cta a:hover { color: var(--brick-dim); border-color: var(--brick-dim); }
+
+  /* ===== PUBLICATIONS ===== */
+  .pub-list { display: flex; flex-direction: column; gap: 0; }
+  .pub-item {
+    display: grid;
+    grid-template-columns: 86px 1fr;
+    gap: 20px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--hairline-dark);
+  }
+  .pub-item:first-child { padding-top: 0; }
+  .pub-status {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--sage);
+    align-self: start;
+    padding-top: 3px;
+  }
+  .pub-status.review { color: var(--brick-dim); }
+  .pub-item h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; line-height: 1.4; }
+  .pub-venue { font-size: 0.88rem; color: var(--slate-dim); }
+  @media (max-width: 600px) {
+    .pub-item { grid-template-columns: 1fr; gap: 6px; }
+  }
+
+  /* ===== CERTS / AWARDS ===== */
+  .cert-cols {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 48px;
+  }
+  @media (max-width: 720px) { .cert-cols { grid-template-columns: 1fr; gap: 32px; } }
+  .cert-cols h3 {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--slate-dim);
+    margin-bottom: 16px;
+  }
+  .cert-list, .award-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .cert-list li, .award-list li {
+    font-size: 0.93rem;
+    padding-left: 18px;
+    position: relative;
+  }
+  .cert-list li::before { content: "▸"; position: absolute; left: 0; color: var(--sage); }
+  .award-list li::before { content: "▸"; position: absolute; left: 0; color: var(--brick-dim); }
+
+  /* ===== CONTACT / FOOTER ===== */
+  .contact {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 88px 0 56px;
+  }
+  .contact .section-tag { color: var(--sage-bright); }
+  .contact h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+    font-weight: 600;
+    max-width: 16ch;
+    margin-bottom: 16px;
+  }
+  .contact p { color: var(--slate); max-width: 52ch; margin-bottom: 32px; }
+
+  .case-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    margin-bottom: 48px;
+    overflow: hidden;
+  }
+  .case-stat {
+    background: var(--surface);
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .case-num {
+    font-family: var(--font-display);
+    font-size: 2.1rem;
+    font-weight: 600;
+    color: var(--sage-bright);
+    line-height: 1;
+  }
+  .case-label {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+    color: var(--slate);
+    line-height: 1.5;
+  }
+  @media (max-width: 640px) {
+    .case-strip { grid-template-columns: 1fr; }
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+    margin-bottom: 56px;
+  }
+  .contact-link {
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    padding: 16px 18px;
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+  }
+  .contact-link:hover { border-color: var(--sage-bright); background: var(--surface); transform: translateY(-2px); }
+  .contact-link .label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sage-bright);
+    margin-bottom: 6px;
+  }
+  .contact-link .value { font-size: 0.95rem; color: var(--paper-dim); overflow-wrap: anywhere; word-break: normal; }
+
+  .footer-bar {
+    border-top: 1px solid var(--hairline);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--slate-dim);
+  }
+
+  /* ===== shared utility ===== */
+  .visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-mark">ATC<span>_</span></a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">MENU</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#summary">Summary</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#blog">Blog</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-inner">
+    <p class="eyebrow">M.S. Cybersecurity · George Washington University</p>
+    <h1>Abtsega Tesfaye Chufare</h1>
+    <p class="hero-role">Cybersecurity, Cloud Security &amp; Applied ML <span class="accent"></span></p>
+    <div class="terminal-rule"></div>
+    
+    <div class="hero-meta">
+      <a href="mailto:abtsega101@gmail.com">EMAIL</a>
+      <a href="https://linkedin.com/in/abtsega-tesfaye" target="_blank" rel="noopener">LINKEDIN</a>
+      <a href="https://github.com/abtsega123" target="_blank" rel="noopener">GITHUB</a>
+      <a href="https://orcid.org" target="_blank" rel="noopener">ORCID</a>
+      <a href="https://credly.com" target="_blank" rel="noopener">CREDLY</a>
+      <span>Washington, D.C. / DMV — Remote-ready</span>
+    </div>
+  </div>
+</header>
+
+<section id="summary">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">[Profile]</span>
+      <h2>Summary</h2>
+    </div>
+    <p style="max-width: 68ch; font-size: 1.02rem;">
+      Cybersecurity professional with experience in cybersecurity, cloud security, and secure software practices, complemented by published research and hands-on technical projects. Proficient in network security, security monitoring, AWS cloud fundamentals, Python, Linux, and security analysis, with the ability to quickly learn and apply new technologies. Strong background in technical problem-solving, documentation, and collaborative project delivery.
+       Seeking opportunities to contribute to security engineering, cloud security, security operations, and related technical roles in fast-paced industry environments. </p>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">[Capabilities]</span>
+      <h2>Skills &amp; Domain Expertise</h2>
+    </div>
+
+    <p class="section-sub">
+      Cybersecurity is my primary specialization, complemented by cloud security,
+      software development, AI/ML, and technical research.
+    </p>
+
+    <div class="skills-grid">
+
+      <div class="skill-group priority">
+        <div class="skill-group-label">
+          <h3>Cybersecurity</h3>
+          <span class="skill-weight">PRIMARY FOCUS</span>
+        </div>
+
+        <div class="chip-row">
+          <span class="chip">Vulnerability Assessment</span>
+          <span class="chip">Penetration Testing</span>
+          <span class="chip">Network Security</span>
+          <span class="chip">Application Security</span>
+          <span class="chip">Threat Modeling</span>
+          <span class="chip">Intrusion Detection (Snort)</span>
+          <span class="chip">Wireshark / Traffic Analysis</span>
+          <span class="chip">Nmap</span>
+          <span class="chip">Metasploit</span>
+          <span class="chip">Firewalls</span>
+          <span class="chip">OWASP Top 10</span>
+          <span class="chip">TCP/IP · DNS · VPN</span>
+          <span class="chip">SOC Fundamentals</span>
+          <span class="chip">Incident Response</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-label">
+          <h3>Cloud &amp; Infrastructure</h3>
+          <span class="skill-weight">SUPPORTING</span>
+        </div>
+
+        <div class="chip-row">
+          <span class="chip">AWS (EC2, IAM, VPC, Auto Scaling)</span>
+          <span class="chip">Google Cloud</span>
+          <span class="chip">Docker</span>
+          <span class="chip">Linux (Ubuntu)</span>
+          <span class="chip">Nginx</span>
+          <span class="chip">Git / GitHub</span>
+          <span class="chip">REST APIs</span>
+          <span class="chip">Agile</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-label">
+          <h3>Programming</h3>
+          <span class="skill-weight">SUPPORTING</span>
+        </div>
+
+        <div class="chip-row">
+          <span class="chip">Python</span>
+          <span class="chip">Java</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">SQL</span>
+          <span class="chip">Bash</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-label">
+          <h3>Web Development</h3>
+          <span class="skill-weight">SUPPORTING</span>
+        </div>
+
+        <div class="chip-row">
+          <span class="chip">HTML5</span>
+          <span class="chip">CSS3</span>
+          <span class="chip">React.js</span>
+          <span class="chip">Flutter</span>
+          <span class="chip">Bootstrap</span>
+          <span class="chip">Firebase</span>
+          <span class="chip">Responsive Design</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-label">
+          <h3>AI / Machine Learning</h3>
+          <span class="skill-weight">SUPPORTING</span>
+        </div>
+
+        <div class="chip-row">
+          <span class="chip">TensorFlow</span>
+          <span class="chip">PyTorch</span>
+          <span class="chip">Scikit-learn</span>
+          <span class="chip">Anomaly Detection</span>
+          <span class="chip">Malware Classification</span>
+          <span class="chip">Natural Language Processing</span>
+          <span class="chip">Llama 3 Applications</span>
+          <span class="chip">Model Evaluation</span>
+          <span class="chip">Data Annotation</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-label">
+          <h3>Research &amp; Technical Writing</h3>
+          <span class="skill-weight">SUPPORTING</span>
+        </div>
+
+        <div class="chip-row">
+          <span class="chip">Peer-Reviewed Publications</span>
+          <span class="chip">IEEE-Style Writing</span>
+          <span class="chip">Technical Documentation</span>
+          <span class="chip">Literature Review</span>
+          <span class="chip">Scientific Proofreading</span>
+          <span class="chip">Research Methodology</span>
+          <span class="chip">APA Formatting</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">[Log]</span>
+      <h2>Experience</h2>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-role">Student Front Desk Assistant <span class="tl-org">— GWU College of Professional Studies</span></span>
+          <span class="tl-date">2025 – Present</span>
+        </div>
+        <div class="tl-loc">Arlington, VA</div>
+        <ul>
+          <li>Serve as first point of contact for students, faculty, and visitors, handling concurrent in-person and digital inquiries with fast, accurate turnaround — direct experience with high-volume, time-bound task throughput.</li>
+          <li>Document recurring issues and process gaps into shareable reference materials, improving consistency across student staff.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item flagship">
+        <div class="tl-head">
+          <span class="tl-role">AI &amp; Cybersecurity Summer Intern <span class="tl-org">— University of Turku</span></span>
+          <span class="tl-date">Aug 2024 – Sep 2024</span>
+        </div>
+        <div class="tl-loc">Finland</div>
+        <ul>
+          <li>Applied machine learning algorithms (Random Forest, SVM, Neural Networks) to network traffic logs for threat detection, achieving <span class="metric">92% classification accuracy</span> — directly transferable to model evaluation and anomaly-labeling tasks.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-role">Software Solution Consultant (Intern) <span class="tl-org">— Global Software Solutions / Chaitanya Enterprise</span></span>
+          <span class="tl-date">Dec 2024 – Jul 2025</span>
+        </div>
+        <div class="tl-loc">India, Remote</div>
+        <ul>
+          <li>Delivered customized technical solutions for <span class="metric">5+ global clients</span> by translating business requirements into specifications, improving operational efficiency by <span class="metric">20%</span>.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-role">Mastercard Virtual Internship <span class="tl-org">— Software / Cybersecurity</span></span>
+          <span class="tl-date">Oct 2023</span>
+        </div>
+        <div class="tl-loc">Remote, USA</div>
+        <ul>
+          <li>Performed data annotation, labeling, and categorization of large datasets to support machine learning model training.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item flagship">
+        <div class="tl-head">
+          <span class="tl-role">Cybersecurity Technology Intern <span class="tl-org">— Cyber Secured India (Prodigy Infotech)</span></span>
+          <span class="tl-date">May 2023 – Jul 2023</span>
+        </div>
+        <div class="tl-loc">India</div>
+        <ul>
+          <li>Identified and remediated <span class="metric">15+ critical vulnerabilities</span> through methodical penetration testing, documenting findings and security protocols for team reference.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-role">Research Assistant <span class="tl-org">— KIIT IoT Lab</span></span>
+          <span class="tl-date">Mar 2022 – Present</span>
+        </div>
+        <div class="tl-loc">India</div>
+        <ul>
+          <li>Developed and tested IoT-based solutions using sensors and cloud integration, contributing to applied research on smart-device data collection.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-role">Academic Tutor &amp; Research Mentor <span class="tl-org">— KIIT University, Dept. of Computer Engineering</span></span>
+          <span class="tl-date">Jun 2022 – Sep 2024</span>
+        </div>
+        <div class="tl-loc">India</div>
+        <ul>
+          <li>Mentored undergraduate researchers in AI/security topics and research methodology — relevant to subject-matter review and rubric-based evaluation work.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">[Build]</span>
+      <h2>Selected Projects</h2>
+    </div>
+
+    <p class="section-sub">
+      A selection of cybersecurity, cloud, and AI projects demonstrating practical implementation, research, and real-world engineering.
+    </p>
+
+    <div class="project-grid">
+
+      <!-- Project 1 -->
+      <div class="project-card">
+        <div class="project-shot">
+          Snort dashboard / Network topology screenshot
+        </div>
+
+        <div class="project-body">
+
+          <div class="project-tag-row">
+            <span class="project-domain">Cybersecurity</span>
+            <a href="#">GitHub →</a>
+          </div>
+
+          <h3>Network Intrusion Detection System using Snort</h3>
+
+          <p>
+            Designed and deployed a Snort-based intrusion detection system capable
+            of identifying malicious network activity through custom detection rules.
+            Validated alerts using Wireshark packet analysis in an Ubuntu environment.
+          </p>
+
+          <div class="project-stack">
+            <span>Snort</span>
+            <span>Wireshark</span>
+            <span>Ubuntu</span>
+            <span>Network Security</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card">
+
+        <div class="project-shot">
+          Confusion matrix / ML pipeline
+        </div>
+
+        <div class="project-body">
+
+          <div class="project-tag-row">
+            <span class="project-domain">Cybersecurity + AI</span>
+            <a href="#">GitHub →</a>
+          </div>
+
+          <h3>Machine Learning Malware Detection System</h3>
+
+          <p>
+            Developed a malware detection pipeline using executable feature extraction
+            and supervised learning, achieving
+            <span class="metric">93% classification accuracy</span>
+            on unseen malware samples.
+          </p>
+
+          <div class="project-stack">
+            <span>Python</span>
+            <span>Scikit-learn</span>
+            <span>TensorFlow</span>
+            <span>Feature Engineering</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Project 3 -->
+      <div class="project-card">
+
+        <div class="project-shot">
+          AWS architecture diagram
+        </div>
+
+        <div class="project-body">
+
+          <div class="project-tag-row">
+            <span class="project-domain">Cloud Security</span>
+            <a href="#">GitHub →</a>
+          </div>
+
+          <h3>Highly Available AWS Infrastructure</h3>
+
+          <p>
+            Architected and deployed a scalable AWS environment using EC2,
+            Auto Scaling, Load Balancing, Docker, and Nginx to support
+            fault-tolerant web application deployment.
+          </p>
+
+          <div class="project-stack">
+            <span>AWS EC2</span>
+            <span>Docker</span>
+            <span>Nginx</span>
+            <span>Auto Scaling</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Project 4 -->
+      <div class="project-card">
+
+        <div class="project-shot">
+          Architecture diagram / Publication figure
+        </div>
+
+        <div class="project-body">
+
+          <div class="project-tag-row">
+            <span class="project-domain">Cybersecurity Research</span>
+            <a href="#">Paper →</a>
+          </div>
+
+          <h3>Cyberbiosecurity Risk Assessment Framework</h3>
+
+          <p>
+            Designed a cloud-focused cyberbiosecurity risk assessment framework
+            for protecting genomic data storage, published through an IEEE
+            peer-reviewed workshop.
+          </p>
+
+          <div class="project-stack">
+            <span>Cloud Security</span>
+            <span>Risk Assessment</span>
+            <span>IEEE Publication</span>
+            <span>Research</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="blog">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">[Field Notes]</span>
+      <h2>From the Blog</h2>
+    </div>
+
+    <p class="section-sub">
+      Writing on protocols, infrastructure, certifications, and the broader intersection of technology and society.
+    </p>
+
+    <div class="blog-grid">
+
+      <!-- Blog post 1 -->
+      <a class="blog-card" href="https://blog-security.vercel.app/blog/http-transfer-protocol-without-security-/" target="_blank" rel="noopener">
+        <div class="blog-shot">Post image / cover graphic</div>
+        <div class="blog-body">
+          <span class="blog-cat">Application · Data</span>
+          <h3>HTTP: Transfer Protocol without Security?</h3>
+          <p>A look at HTTP as a stateless, message-based protocol — and why that statelessness matters for security.</p>
+          <span class="blog-read">Read More →</span>
+        </div>
+      </a>
+
+      <!-- Blog post 2 -->
+      <a class="blog-card" href="https://blog-security.vercel.app/blog/wired-for-connection-human-and-digital-network/" target="_blank" rel="noopener">
+        <div class="blog-shot">Post image / cover graphic</div>
+        <div class="blog-body">
+          <span class="blog-cat">Application · Data</span>
+          <h3>Wired for Connection: Human and Digital Networks</h3>
+          <p>On living in an age where personal and professional life are entwined with networks both tangible and virtual.</p>
+          <span class="blog-read">Read More →</span>
+        </div>
+      </a>
+
+      <!-- Blog post 3 -->
+      <a class="blog-card" href="https://blog-security.vercel.app/blog/google-vs-microsoft-professional-cybersecurity-certification/" target="_blank" rel="noopener">
+        <div class="blog-shot">Post image / cover graphic</div>
+        <div class="blog-body">
+          <span class="blog-cat">Application · Data</span>
+          <h3>Google vs Microsoft: Professional Cybersecurity Certification</h3>
+          <p>Comparing two major certification tracks to help practitioners choose the right path for their goals.</p>
+          <span class="blog-read">Read More →</span>
+        </div>
+      </a>
+
+      <!-- Blog post 4 -->
+      <a class="blog-card" href="#" target="_blank" rel="noopener">
+        <div class="blog-shot">Post image / cover graphic</div>
+        <div class="blog-body">
+          <span class="blog-cat">Education &amp; Certification</span>
+          <h3>AI &amp; Cybersecurity Course at the University of Turku</h3>
+          <p>Notes on the convergence of AI and cybersecurity, and what the field looks like as the two disciplines merge.</p>
+          <span class="blog-read">Read More →</span>
+        </div>
+      </a>
+
+      <!-- Blog post 5 -->
+      <a class="blog-card" href="#" target="_blank" rel="noopener">
+        <div class="blog-shot">Post image / cover graphic</div>
+        <div class="blog-body">
+          <span class="blog-cat">Education &amp; Certification</span>
+          <h3>MLSecOps Foundation Course by Protect AI</h3>
+          <p>Securing AI and ML systems against evolving threats as they become embedded across critical infrastructure.</p>
+          <span class="blog-read">Read More →</span>
+        </div>
+      </a>
+
+      <!-- Blog post 6 -->
+      <a class="blog-card" href="#" target="_blank" rel="noopener">
+        <div class="blog-shot">Post image / cover graphic</div>
+        <div class="blog-body">
+          <span class="blog-cat">Diaspora · Human Rights</span>
+          <h3>Displacement, Identity, and Advocacy</h3>
+          <p>Reflections on diaspora advocacy, ethnic persecution, and the psychological impact of arbitrary detention.</p>
+          <span class="blog-read">Read More →</span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="blog-cta">
+      <a href="#" target="_blank" rel="noopener">View all posts on Abtsega's Blog →</a>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">[Published]</span>
+      <h2>Publications &amp; Research Output</h2>
+    </div>
+
+    <div class="pub-list">
+      <div class="pub-item">
+        <span class="pub-status">Published</span>
+        <div>
+          <h3>Cybersecurity Imminent Threats with Solutions in Higher Education</h3>
+          <p class="pub-venue">Co-Author · Recent Trends in Intelligence Enabled Research: Selected Papers of DOSIER 2022, Springer Nature Singapore, 2023 · ISBN 9789819914722</p>
+        </div>
+      </div>
+      <div class="pub-item">
+        <span class="pub-status">Published</span>
+        <div>
+          <h3>Human-Centric Frameworks: Unraveling the Social Dynamics of Emerging Threats</h3>
+          <p class="pub-venue">Co-Author · Role of Emerging Technologies in Social Science, Cambridge Scholars Publishing, UK, 2024 · ISBN 9781036409531</p>
+        </div>
+      </div>
+      <div class="pub-item">
+        <span class="pub-status">Published</span>
+        <div>
+          <h3>Edge Computing Resource Allocation Using a Game-Theoretic Voting System</h3>
+          <p class="pub-venue">Co-Author · IEEE</p>
+        </div>
+      </div>
+      <div class="pub-item">
+        <span class="pub-status review">Under Review</span>
+        <div>
+          <h3>A Comprehensive Review of Real-Time Anomaly Detection Using Big Data Analytics</h3>
+          <p class="pub-venue">Submitted to Elsevier</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="credentials">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">[Verified]</span>
+      <h2>Certifications, Awards &amp; Leadership</h2>
+    </div>
+
+    <div class="cert-cols">
+      <div>
+        <h3>Certifications</h3>
+        <ul class="cert-list">
+          <li>Google Cybersecurity Professional Certificate</li>
+          <li>Microsoft Security Analyst / IT Support Professional Certificate</li>
+          <li>Cisco CyberOps Professional</li>
+          <li>Cisco CCNA Networking</li>
+          <li>Machine Learning on Google Cloud Specialization</li>
+          <li>Application Security for Developers &amp; DevOps Professionals</li>
+          <li>ISC2 Candidate</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Awards &amp; Affiliations</h3>
+        <ul class="award-list">
+          <li>Best Research Paper — Doctoral Symposium on Intelligence Enabled Research (DOSIER)</li>
+          <li>Silver Honor — International Youth Math &amp; Astronomy Competition</li>
+          <li>Participant — National Cybersecurity Hackathon (ICDCIT × Springer)</li>
+          <li>Member — IEEE, ICDCIT, ISC2</li>
+          <li>Team Leader, Research Collaboration &amp; Hackathons (2023–2024)</li>
+          <li>Team Leader, International Students Society (2022–2023)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="contact" id="contact">
+  <div class="wrap">
+    <span class="section-tag">[Contact]</span>
+    <h2 style="margin-top:16px;">Ready to contribute from day one.</h2>
+    <p>M.S. Cybersecurity candidate, George Washington University — published researcher, hands-on practitioner, and dependable collaborator. Based in the Washington, D.C. / DMV area, reachable on every channel below.</p>
+
+    <div class="case-strip">
+      <div class="case-stat">
+        <span class="case-num">3+</span>
+        <span class="case-label">Peer-reviewed publications<br>(IEEE / Springer / Cambridge)</span>
+      </div>
+      <div class="case-stat">
+        <span class="case-num">2</span>
+        <span class="case-label">Countries of hands-on<br>research experience</span>
+      </div>
+      <div class="case-stat">
+        <span class="case-num">7+</span>
+        <span class="case-label">Professional certifications<br>across security &amp; cloud</span>
+      </div>
+    </div>
+
+    <div class="contact-grid">
+      <a class="contact-link" href="mailto:abtsega101@gmail.com">
+        <span class="label">Email</span>
+        <span class="value">abtsega101@gmail.com</span>
+      </a>
+      <a class="contact-link" href="https://linkedin.com/in/abtsega-tesfaye" target="_blank" rel="noopener">
+        <span class="label">LinkedIn</span>
+        <span class="value">/in/abtsega-tesfaye</span>
+      </a>
+      <a class="contact-link" href="https://github.com/abtsega123" target="_blank" rel="noopener">
+        <span class="label">GitHub</span>
+        <span class="value">@abtsega123</span>
+      </a>
+      <a class="contact-link" href="https://orcid.org/0000-0001-6768-9920" target="_blank" rel="noopener">
+        <span class="label">ORCID</span>
+        <span class="value">Researcher ID</span>
+      </a>
+      <a class="contact-link" href=" https://www.credly.com/users/abtsega-tesfaye-chufare.b9c99beb" target="_blank" rel="noopener">
+        <span class="label">Credly</span>
+        <span class="value">Certifications</span>
+      </a>
+      <a class="contact-link" href="https://leetcode.com" target="_blank" rel="noopener">
+        <span class="label">LeetCode</span>
+        <span class="value">Practice profile</span>
+      </a>
+    </div>
+
+    <div class="footer-bar">
+      <span>© 2026 Abtsega Tesfaye Chufare</span>
+      <span>Built and maintained on GitHub Pages</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
